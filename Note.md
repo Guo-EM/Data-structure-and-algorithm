@@ -1,4 +1,6 @@
-# 快速排序模板
+# 基础算法
+## 排序 
+### 快速排序模板
 ```
 #include<iostream>
 using namespace std;
@@ -35,4 +37,8 @@ int main()
     
     return 0;
 }
+```
+### 归并排序模板
+```
+
 ```
