@@ -22,7 +22,7 @@ void quick_sort(int q[], int l, int r) //数组，左右边界
         if(i < j) swap(q[i], q[j]);     
     }
     //递归处理
-    quick_sort(q, j, j);
+    quick_sort(q, l, j);
     quick_sort(q, j + 1, r);
 }
 
