@@ -77,6 +77,7 @@ int main()
 }
 ```
 ### 二分
+#### 整数二分
 ```
 //区间[l, r]被划分成[l, mid]和[mid + 1, r]时使用：
 int bsearch_1(int l, int r)
@@ -102,4 +103,24 @@ int bsearch_2(int l, int r)
     return l;
 }
 ```
+#### 浮点数二分
+```
+#include<iostream>
+using namespace std;
 
+int main()
+{
+    double x;
+    cin >> x;
+    double l = 0, r = x;
+    while(r - l > 1e-6) //区间足够小时结束迭代，精度比要求精度高两位
+    {
+        double mid = (l + r) / 2;
+        if (check(*****)) r = mid;
+        else  l = mid;
+    }
+    printf("%lf\n", l);
+    
+    return 0;
+}
+```
