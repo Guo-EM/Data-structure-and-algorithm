@@ -61,7 +61,7 @@ void merge_sort(int q[], int l, int r)
     }
     while(i <= mid) tmp[k ++] = q[i ++];
     while(j <= r) tmp[k ++] = q[j ++];
-    for (i = l, j = 0; i <= r; i ++, j++) q[i] = tmp[i];
+    for (i = l, j = 0; i <= r; i ++, j++) q[i] = tmp[j];
 }
 
 int main()
