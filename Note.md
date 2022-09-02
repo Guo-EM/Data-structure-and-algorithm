@@ -103,6 +103,54 @@ int bsearch_2(int l, int r)
     return l;
 }
 ```
+##### 例题
+```
+//例：数的范围
+
+#include<iostream>
+using namespace std;
+
+const int N = 1e6 + 10;
+
+int q[N];
+
+//如果出现多个目标寻找的是数的边界
+int find_l(int q[], int target, int l, int r){
+    if(l >= r) return 0;
+    while(l < r){
+        int mid = (l + r) >> 1;
+        if(q[mid] >= target) r = mid;  //寻找的是大于target的第一个数 即左边界
+        else l = mid + 1;
+    }
+    if(q[l] == target) return l;
+    else return -1;
+}
+
+int find_r(int q[], int target, int l, int r){
+    if (l >= r) return 0;
+    while(l < r){
+        int mid = (l + r + 1) >> 1;
+        if(q[mid] <= target) l = mid; //寻找的是小于target的第一个数 即右边界
+        else r = mid - 1;
+    }
+    if(q[l] == target) return l;
+    else return -1;
+}
+
+int main(){
+    int n, findn;
+    scanf("%d%d", &n, &findn);
+    int target[findn];
+    for(int i = 0; i < n; i ++) scanf("%d", &q[i]);
+    for(int j = 0; j < findn; j ++) scanf("%d", &target[j]);
+    for(int k = 0; k < findn; k ++) {
+        int left = find_l(q, target[k], 0, n - 1);
+        int right = find_r(q, target[k], 0, n - 1);
+        printf("%d %d\n", left, right);
+    }
+    return 0;
+}
+```
 #### 浮点数二分
 ```
 #include<iostream>
