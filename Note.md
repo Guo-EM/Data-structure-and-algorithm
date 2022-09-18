@@ -76,8 +76,8 @@ int main()
     return 0;
 }
 ```
-### 二分
-#### 整数二分
+## 二分
+### 整数二分
 ```
 //区间[l, r]被划分成[l, mid]和[mid + 1, r]时使用：
 int bsearch_1(int l, int r)
@@ -151,7 +151,7 @@ int main(){
     return 0;
 }
 ```
-#### 浮点数二分
+### 浮点数二分
 ```
 #include<iostream>
 using namespace std;
@@ -172,8 +172,8 @@ int main()
     return 0;
 }
 ```
-### 高精度
-#### 高精度加法
+## 高精度
+### 高精度加法
 
 ```
 #include<iostream>
@@ -208,7 +208,7 @@ int main(){
 }
 ```
 
-#### 高精度减法
+### 高精度减法
 
 ```
 #include<iostream>
@@ -262,7 +262,7 @@ int main(){
 }
 ```
 
-#### 高精度乘法
+### 高精度乘法
 
 ```
 #include<iostream>
@@ -297,7 +297,7 @@ int main(){
 }
 ```
 
-#### 高精度除法
+### 高精度除法
 
 ```
 #include<iostream>
@@ -336,8 +336,8 @@ int main(){
     return 0;
 }
 ```
-### 前缀和与差分
-#### 前缀和
+## 前缀和与差分
+### 前缀和
 
 ```
 #include<iostream>
@@ -375,7 +375,7 @@ int main(){
     return 0;
 }
 ```
-#### 子矩阵的和
+### 子矩阵的和
 
 ```
 #include<iostream>
@@ -408,7 +408,7 @@ int main()
     return 0;
 }
 ```
-#### 差分
+### 差分
 
 ```
 #include<iostream>
@@ -446,7 +446,7 @@ int main()
     return 0;
 }
 ```
-#### 差分矩阵
+### 差分矩阵
 
 ```
 #include<iostream>
