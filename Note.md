@@ -495,3 +495,171 @@ int main()
     return 0;
 }
 ```
+## 双指针算法
+### 最长连续不重复子序列
+
+```
+#include<iostream>
+using namespace std;
+
+const int N = 1e5 +10;
+
+int a[N];
+int s[N];
+int n;
+
+int main(){
+    cin >> n;
+    for(int i = 0; i < n; i ++) cin >> a[i];
+
+    int res = 0;
+    for(int i = 0, j = 0; i < n; i++) {
+        s[a[i]]++;
+        while (s[a[i]] > 1) {
+            s[a[j]]--;
+            j++;
+        }
+        res = max(res, i - j + 1);
+    }
+    cout << res << endl;
+    return 0;
+}
+```
+
+## 位运算
+### 二进制中1的个数
+```
+#include<iostream>
+using namespace std;
+
+int lowbit(int x){
+    return x & -x;
+}
+
+int main(){
+    int n;
+    cin >> n;
+    while(n --){
+        int x;
+        cin >> x;
+        int res = 0;
+        while(x) x -= lowbit(x), res ++;
+        cout << res << ' ';
+    }
+    return 0;
+}
+```
+## 离散化
+### 区间和
+```
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+typedef pair<int, int> PII;
+
+const int N = 300010;
+int n, m;
+int a[N], s[N];
+vector<int> alls;
+vector<PII> add, query;
+
+int find(int x){
+    //求离散化之后的结果
+    int l = 0, r = alls.size() - 1;
+    while(l < r){
+        int mid = l + r >> 1;
+        if(alls[mid] >= x) r = mid;
+        else l = mid + 1;
+    }
+    return r + 1;
+}
+
+int main(){
+    cin >> n >> m;
+    for (int i = 0; i < n; i ++){
+        int x, c;
+        cin >> x >> c;
+        add.push_back({x, c});
+        alls.push_back(x);
+    }
+    for(int i = 0; i < m; i ++){
+        int l, r;
+        cin >> l >> r;
+        query.push_back({l, r});
+        alls.push_back(l);
+        alls.push_back(r);
+    }
+
+    //去重
+    sort(alls.begin(), alls.end());
+    alls.erase(unique(alls.begin(), alls.end()), alls.end());
+
+    //处理插入
+    for (auto item : add){
+        int x = find(item.first);
+        a[x] += item.second;
+    }
+
+    //预处理前缀和
+    for(int i = 1; i <= alls.size(); i ++) s[i] = s[i - 1] + a[i];
+
+    //处理询问
+    for(auto item : query){
+        int l = find(item.first), r = find(item.second);
+        cout << s[r] - s[l - 1] << endl;
+    }
+
+    return 0;
+}
+```
+
+## 区间和并
+### 区间和并
+
+```
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+typedef pair<int, int> PII;
+
+const int N = 100010;
+int n;
+vector<PII> segs;
+
+void merge(vector<PII> &segs){
+    vector<PII> res;
+    sort(segs.begin(), segs.end());
+    for(auto seg : segs) {
+        cout << seg.first << " " << seg.second;
+        cout << endl;
+    }
+    int st = -2e9, ed = -2e9;
+    for(auto seg : segs){
+        if(ed < seg.first){
+            if(st != -2e9) res.push_back({st, ed});
+            st = seg.first, ed = seg.second;
+        }
+        else ed = max(ed, seg.second);
+    }
+    if (st != -2e9) res.push_back({st, ed});
+    segs = res;
+}
+
+int main(){
+    cin >> n;
+    for (int i = 0; i < n; i ++){
+        int l, r;
+        cin >> l >> r;
+        segs.push_back({l, r});
+    }
+    merge(segs);
+
+    cout << segs.size() << endl;
+
+    return 0;
+}
+```
