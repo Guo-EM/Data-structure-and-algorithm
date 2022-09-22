@@ -663,3 +663,334 @@ int main(){
     return 0;
 }
 ```
+# 数据结构
+## 单链表
+
+```
+#include <iostream>
+
+using namespace std;
+const int N = 1e5 + 10;
+
+//head  表示头结点的下标
+//e[i]  表示结点i的值
+//ne[i] 表示结点i的next指针是多少
+//idx   存储当前已经用到了哪个点
+int head, e[N], ne[N], idx;
+
+//初始化
+void init(){
+    head = -1;
+    idx = 0;
+}
+
+//将x插到头节点
+void add_to_head(int x){
+    e[idx] = x;
+    ne[idx] = head;
+    head = idx;
+    idx ++;
+}
+
+//将x插到下标是k的点后面
+void add(int k, int x){
+    e[idx] = x;
+    ne[idx] = ne[k];
+    ne[k] = idx;
+    idx ++;
+}
+
+//将下标是k的点后面的点删掉
+void remove(int k){
+    ne[k] = ne[ne[k]];
+}
+
+int main(){
+    int m;
+    cin >> m;
+    init();
+    while (m --){
+        int k, x;
+        char op;
+        cin >> op;
+        if (op == 'H') {
+            cin >> x;
+            add_to_head(x);
+        }
+        else if (op == 'D'){
+            cin >> k;
+            if (!k) head = ne[head];
+            remove(k - 1);
+        }
+        else{
+            cin >> k >> x;
+            add(k - 1 , x);
+        }
+    }
+    for (int i = head; i != -1; i = ne[i]) cout << e[i] << " ";
+    cout << endl;
+
+    return 0;
+}
+```
+
+## 双链表
+
+```
+#include <iostream>
+
+using namespace std;
+const int N = 1e5 + 10;
+
+int  e[N], l[N], r[N], idx;
+int m;
+
+//初始化
+void init(){
+    //0表示左端点 1表示右端点
+    r[0] = 1, l[1] = 0;
+    idx = 2;
+}
+
+//在下标是k的点的右边，插入x
+void add(int k, int x){
+    e[idx] = x;
+    r[idx] = r[k];
+    l[idx] = k;
+    l[r[k]] = idx;
+    r[k] = idx;
+}
+
+//删除第k个点
+void remove(int k){
+    r[l[k]] = r[k];
+    l[r[k]] = l[k];
+}
+
+int main(){
+
+
+    return 0;
+}
+```
+
+## 栈
+
+```
+#include <iostream>
+
+using namespace std;
+const int N = 1e5 + 10;
+
+// tt表示栈顶
+int stk[N], tt = 0;
+
+// 向栈顶插入一个数
+stk[ ++ tt] = x;
+
+// 从栈顶弹出一个数
+tt -- ;
+
+// 栈顶的值
+stk[tt];
+
+// 判断栈是否为空
+if (tt > 0) empty;
+else not empty;
+
+```
+
+## 队列
+
+```
+/*
+hh 表示队头，tt表示队尾
+1.普通队列
+int q[N], hh = 0, tt = -1;
+
+// 向队尾插入一个数
+q[ ++ tt] = x;
+
+// 从队头弹出一个数
+hh ++ ;
+
+// 队头的值
+q[hh];
+
+// 判断队列是否为空
+if (hh <= tt) not empty
+ else empty
+
+2.循环队列
+// hh 表示队头，tt表示队尾的后一个位置
+int q[N], hh = 0, tt = 0;
+
+// 向队尾插入一个数
+q[tt ++ ] = x;
+if (tt == N) tt = 0;
+
+// 从队头弹出一个数
+hh ++ ;
+if (hh == N) hh = 0;
+
+// 队头的值
+q[hh];
+
+// 判断队列是否为空
+if (hh != tt)
+{
+
+}
+*/
+```
+
+## 单调栈
+
+```
+/* 常见模型：找出每个数左边离它最近的比它大/小的数
+int tt = 0;
+for (int i = 1; i <= n; i ++ )
+{
+    while (tt && check(stk[tt], i)) tt -- ;
+    stk[ ++ tt] = i;
+}*/
+#include <iostream>
+
+using namespace std;
+const int N = 1e5 + 10;
+
+int n;
+int stk[N], tt;
+//时间复杂度o(n)
+int main(){
+    cin >> n;
+    for (int i = 0; i < n; i ++){
+        int x;
+        cin >> x;
+        while (tt && stk[tt] >= x) tt --;
+        if (tt) cout << stk[tt] << ' ';
+        else cout << -1 << ' ';
+    }
+
+    return 0;
+}
+```
+## 单调队列
+```
+/*
+//滑动窗口
+int hh = 0, tt = -1;
+for (int i = 0; i < n; i ++ )
+{
+while (hh <= tt && check_out(q[hh])) hh ++ ;  // 判断队头是否滑出窗口
+while (hh <= tt && check(q[tt], i)) tt -- ;
+q[ ++ tt] = i;
+}
+ */
+#include <iostream>
+
+using namespace std;
+const int N = 1e6 + 10;
+
+// n元素个数 k窗口长度
+int n, k;
+// a[N]数组 q[N]数组下标
+int a[N], q[N];
+
+int main(){
+    scanf("%d%d", &n, &k);
+    for (int i = 0; i < n; i ++) scanf("%d", &a[i]);
+
+    int hh = 0, tt = -1;
+    //找窗口中的最小值
+    for (int i = 0; i < n; i ++){
+        //判断队头是否滑出窗口
+        //其中i表示滑动窗口的右端点位置，所以当前实际窗口的左端点位置应为i-k+1
+        //而队列q[hh]存的则为窗口中数值最小的元素的位置，姑且记为pos，
+        //则必有pos>=i-k+1，反之(即i-k+1>pos)，则pos位置已经从左边移出窗口，
+        //而位置pos即为q[hh]，故若i-k+1>pos,则hh++；
+        if (hh <= tt && i - k + 1 > q[hh]) hh ++;
+        //若队尾元素的值a[q[tt]]>=滑动窗口的右端点a[i]，则为了维护队列q单调，需要删除队尾
+        while (hh <= tt && a[q[tt]] >= a[i]) tt --;
+        //直到队尾元素比窗口右端点的值小a[q[tt]]<a[i]，将位置i入队
+        q[++ tt] = i;
+        //窗口是从数组a中第一个元素a[0]开始吞入，故要等到窗口中的元素满了才可以输出。
+        if(i >= k - 1) printf("%d ", a[q[hh]]);
+    }
+    puts("");
+
+    hh = 0, tt = -1;
+    //找窗口中的最大值
+    for (int i = 0; i < n; i ++){
+        //判断队头是否滑出窗口
+        if (hh <= tt && i - k + 1 > q[hh]) hh ++;
+        while (hh <= tt && a[q[tt]] <= a[i]) tt --;
+        q[++ tt] = i;
+        if(i >= k - 1) printf("%d ", a[q[hh]]);
+    }
+    puts("");
+    return 0;
+}
+```
+## KMP
+
+```
+#include <iostream>
+
+using namespace std;
+
+const int N = 100010, M = 1000010;
+
+int n, m;
+int ne[N];
+char s[M], p[N];
+
+/*
+// s[]是长文本，p[]是模式串，n是s的长度，m是p的长度
+求模式串的Next数组：
+for (int i = 2, j = 0; i <= m; i ++ )
+{
+    while (j && p[i] != p[j + 1]) j = ne[j];
+    if (p[i] == p[j + 1]) j ++ ;
+    ne[i] = j;
+}
+
+// 匹配
+for (int i = 1, j = 0; i <= n; i ++ )
+{
+    while (j && s[i] != p[j + 1]) j = ne[j];
+    if (s[i] == p[j + 1]) j ++ ;
+    if (j == m)
+    {
+        j = ne[j];
+        // 匹配成功后的逻辑
+    }
+}
+*/
+
+int main()
+{
+    //从字符数组的第二位开始输入字符
+    cin >> n >> p + 1 >> m >> s + 1;
+
+    for (int i = 2, j = 0; i <= n; i ++ )
+    {
+        while (j && p[i] != p[j + 1]) j = ne[j];
+        if (p[i] == p[j + 1]) j ++ ;
+        ne[i] = j;
+    }
+
+    for (int i = 1, j = 0; i <= m; i ++ )
+    {
+        while (j && s[i] != p[j + 1]) j = ne[j];
+        if (s[i] == p[j + 1]) j ++ ;
+        if (j == n)
+        {
+            printf("%d ", i - n);
+            j = ne[j];
+        }
+    }
+
+    return 0;
+}
+```
